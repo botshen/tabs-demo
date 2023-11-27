@@ -1,64 +1,56 @@
 <template>
-  <div class="tabs">
-    <ol class="tabs_nav">
-      <li
-        v-for="tab in tabs"
-        :key="tab.props?.name"
-        :class="{ selected: tab.props?.name === selected }"
-        @click="updateSelected(tab.props?.name)"
-      >
-        {{ tab.props?.name }}
-      </li>
-    </ol>
-    <div>
-      {{ tabs.find((item) => item.props?.name === props.selected) }}
+  <div>
+    <div
+      class="tab"
+      v-for="tab in tabs"
+      :key="tab?.name"
+      @click="handleClick(tab.name)"
+    >
+      {{ tab?.name }}
     </div>
+    <slot></slot>
   </div>
 </template>
 
 <script setup>
-import { ref, useSlots } from "vue";
-const slots = useSlots();
+import { ref, provide, watch, onMounted, useSlots } from "vue";
+
 const props = defineProps({
-  selected: String,
-  onUpdateSelected: Function,
+  modelValue: {
+    type: String,
+    default: "",
+  },
 });
-const selected = ref(props.selected);
-const updateSelected = (name) => {
-  if (props.onUpdateSelected) {
-    props.onUpdateSelected(name);
-  } else {
-    selected.value = name;
+
+const activeName = ref(props.modelValue);
+provide("activeName", activeName);
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    activeName.value = newVal;
   }
+);
+
+const emit = defineEmits(["update:modelValue", "onUpdatedSelected"]);
+
+const handleClick = (tab) => {
+  emit("onUpdatedSelected", tab);
+  emit("update:modelValue", tab);
 };
 
-const tabs = slots.default?.() || [];
-console.log(
-  "%c [ tabs ]-38",
-  "font-size:13px; background:pink; color:#bf2c9f;",
-  tabs
-);
+let tabs = ref([]);
+const slots = useSlots();
+
+onMounted(() => {
+  tabs.value = slots.default()?.map((vnode) => vnode.props);
+});
 </script>
 
-<style scoped lang="scss">
-/* Add your styles here */
-.tabs {
-  &_nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    color: red;
-
-    > li {
-      flex-grow: 1;
-      flex-shrink: 0;
-      padding: 12px 0;
-      background: yellow;
-      &.selected {
-        background: green;
-      }
-    }
-  }
+<style scoped>
+.tab {
+  display: inline-block;
+  padding: 10px;
+  margin: 0 10px;
 }
 </style>
