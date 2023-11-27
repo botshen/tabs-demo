@@ -1,7 +1,5 @@
-# Vue 3 + Vite
+## 请直接在微信一次性提供以下信息（缺一不可）：
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+3.错误复现步骤。比如「第一步打开控制台看到报错，报错信息是：」
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+4.期待的正确结果。比如「我觉得不应该出现报错」
