@@ -11,7 +11,7 @@
       </li>
     </ol>
     <div>
-      {{ tabs.find }}
+      {{ tabs.find((item) => item.props?.name === props.selected) }}
     </div>
   </div>
 </template>
